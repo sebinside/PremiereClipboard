@@ -10,7 +10,7 @@ namespace PremiereClipboard
 {
     class Program
     {
-        const string trackFormat = "PProAE/Exchange/TrackItem";
+        const string TrackFormat = "PProAE/Exchange/TrackItem";
         static bool overwriteProtection = true;
 
         [STAThreadAttribute]
@@ -24,7 +24,7 @@ namespace PremiereClipboard
                 overwriteProtection = false;
             }
 
-            if (args.Length == 2 && args[0] == "--save")
+            if (args.Length >= 2 && args[0] == "--save")
             {
                 SaveClipboard(args[1]);
             }
@@ -59,7 +59,7 @@ namespace PremiereClipboard
                     byte[] buffer = File.ReadAllBytes(fileName);
                     Console.WriteLine("Loaded file successfully.");
                     var trackItem = new MemoryStream(buffer);
-                    Clipboard.SetData(trackFormat, trackItem);
+                    Clipboard.SetData(TrackFormat, trackItem);
                     Console.WriteLine("Set clipboard successfully.");
                 }
                 catch (Exception e)
@@ -83,7 +83,7 @@ namespace PremiereClipboard
             {
                 try
                 {
-                    MemoryStream trackItem = (MemoryStream)Clipboard.GetData(trackFormat);
+                    MemoryStream trackItem = (MemoryStream)Clipboard.GetData(TrackFormat);
                     if (trackItem == null)
                     {
                         Console.WriteLine("Unable to find Premiere track items in clipboard.");
