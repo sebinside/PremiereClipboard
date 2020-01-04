@@ -10,7 +10,7 @@ namespace PremiereClipboard
 {
     class Program
     {
-        static string trackFormat = "PProAE/Exchange/TrackItem";
+        const string trackFormat = "PProAE/Exchange/TrackItem";
         static bool overwriteProtection = true;
 
         [STAThreadAttribute]
@@ -35,8 +35,8 @@ namespace PremiereClipboard
             else
             {
                 Console.WriteLine("This tool is designed to work specifically with Premiere track item clipboards.");
-                Console.WriteLine("Usage: PremiereClipboard.exe <command> <filePath>");
-                Console.WriteLine("Use command --save to store the copied track items to a specified file. By adding --overwrite you disable the overwrite protection.");
+                Console.WriteLine("Usage: PremiereClipboard.exe <command> <filePath> <--overwrite>");
+                Console.WriteLine("Use command --save to store the copied track items to a specified file. By adding --overwrite as third parameter you disable the overwrite protection.");
                 Console.WriteLine("Use command --load to load previously stored track items from a specified file.");
 
                 pressEnterToExit();
