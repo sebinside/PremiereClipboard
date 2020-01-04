@@ -21,7 +21,7 @@ namespace PremiereClipboard
 
             if(args.Length == 3 && args[2] == "--overwrite")
             {
-                overwriteProtection = false;
+                OverwriteProtection = false;
             }
 
             if (args.Length >= 2 && args[0] == "--save")
@@ -74,7 +74,7 @@ namespace PremiereClipboard
         {
             Console.WriteLine("Started with --save command.");
 
-            if (File.Exists(fileName) && overwriteProtection)
+            if (File.Exists(fileName) && OverwriteProtection)
             {
                 Console.WriteLine($"The file \"{fileName}\" already exists. Not overwriting it for safety!");
                 pressEnterToExit();
