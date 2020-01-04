@@ -11,7 +11,7 @@ namespace PremiereClipboard
     class Program
     {
         const string TrackFormat = "PProAE/Exchange/TrackItem";
-        static bool overwriteProtection = true;
+        static bool OverwriteProtection = true;
 
         [STAThreadAttribute]
         static void Main(string[] args)
