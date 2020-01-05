@@ -14,8 +14,8 @@ There is no GUI available, everything can be achieved using the command line int
 
 The following output is printed when used with wrong arguments (shortened):
 ```
-Usage: PremiereClipboard.exe <command> <filePath>
-Use command --save to store the copied track items to a specified file.
+Usage: PremiereClipboard.exe <command> <filePath> <--overwrite>
+Use command --save to store the copied track items to a specified file. By adding --overwrite as third parameter you disable the overwrite protection.
 Use command --load to load previously stored track items from a specified file.
 ```
 
