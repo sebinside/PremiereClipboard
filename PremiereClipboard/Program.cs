@@ -26,12 +26,31 @@ namespace PremiereClipboard
             {
                 loadClipboard(args[1]);
             }
+            else if (args.Length == 1 && args[0] == "--fill")
+            {
+                fillClipboardWithSomeText();
+            }
             else
             {
                 Console.WriteLine("This tool is designed to work specifically with Premiere track item clipboards.");
                 Console.WriteLine("Usage: PremiereClipboard.exe <command> <filePath>");
                 Console.WriteLine("Use command --save to store the copied track items to a specified file.");
                 Console.WriteLine("Use command --load to load previously stored track items from a specified file.");
+                Console.WriteLine("Use command --fill to fill clipboard with some text to avoid some weird premiere bug.");
+                pressEnterToExit();
+            }
+        }
+
+        static void fillClipboardWithSomeText()
+        {
+            try
+            {
+                Clipboard.SetText("something");
+                Console.WriteLine("Filled clipboard successfully with something.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Exception: {e.Message}");
                 pressEnterToExit();
             }
         }
