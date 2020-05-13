@@ -10,7 +10,8 @@ namespace PremiereClipboard
 {
     class Program
     {
-        static string trackFormat = "PProAE/Exchange/TrackItem";
+        const string TrackFormat = "PProAE/Exchange/TrackItem";
+        static bool OverwriteProtection = true;
 
         [STAThreadAttribute]
         static void Main(string[] args)
@@ -18,13 +19,18 @@ namespace PremiereClipboard
             Console.WriteLine("PremiereClipboard Utility by sebinside");
             Console.WriteLine("Working with Adobe Premiere Clip(board)s. Without bullshit.");
 
-            if (args.Length == 2 && args[0] == "--save")
+            if(args.Length == 3 && args[2] == "--overwrite")
             {
-                saveClipboard(args[1]);
+                OverwriteProtection = false;
+            }
+
+            if (args.Length >= 2 && args[0] == "--save")
+            {
+                SaveClipboard(args[1]);
             }
             else if (args.Length == 2 && args[0] == "--load")
             {
-                loadClipboard(args[1]);
+                LoadClipboard(args[1]);
             }
             else if (args.Length == 1 && args[0] == "--fill")
             {
@@ -33,9 +39,10 @@ namespace PremiereClipboard
             else
             {
                 Console.WriteLine("This tool is designed to work specifically with Premiere track item clipboards.");
-                Console.WriteLine("Usage: PremiereClipboard.exe <command> <filePath>");
-                Console.WriteLine("Use command --save to store the copied track items to a specified file.");
+                Console.WriteLine("Usage: PremiereClipboard.exe <command> <filePath> <--overwrite>");
+                Console.WriteLine("Use command --save to store the copied track items to a specified file. By adding --overwrite as third parameter you disable the overwrite protection.");
                 Console.WriteLine("Use command --load to load previously stored track items from a specified file.");
+
                 Console.WriteLine("Use command --fill to fill clipboard with some text to avoid some weird premiere bug.");
                 pressEnterToExit();
             }
@@ -51,11 +58,12 @@ namespace PremiereClipboard
             catch (Exception e)
             {
                 Console.WriteLine($"Exception: {e.Message}");
+
                 pressEnterToExit();
             }
         }
 
-        static void loadClipboard(string fileName)
+        static void LoadClipboard(string fileName)
         {
             Console.WriteLine("Started with --load command.");
 
@@ -71,7 +79,7 @@ namespace PremiereClipboard
                     byte[] buffer = File.ReadAllBytes(fileName);
                     Console.WriteLine("Loaded file successfully.");
                     var trackItem = new MemoryStream(buffer);
-                    Clipboard.SetData(trackFormat, trackItem);
+                    Clipboard.SetData(TrackFormat, trackItem);
                     Console.WriteLine("Set clipboard successfully.");
                 }
                 catch (Exception e)
@@ -82,11 +90,11 @@ namespace PremiereClipboard
             }
         }
 
-        static void saveClipboard(string fileName)
+        static void SaveClipboard(string fileName)
         {
             Console.WriteLine("Started with --save command.");
 
-            if (File.Exists(fileName))
+            if (File.Exists(fileName) && OverwriteProtection)
             {
                 Console.WriteLine($"The file \"{fileName}\" already exists. Not overwriting it for safety!");
                 pressEnterToExit();
@@ -95,7 +103,7 @@ namespace PremiereClipboard
             {
                 try
                 {
-                    MemoryStream trackItem = (MemoryStream)Clipboard.GetData(trackFormat);
+                    MemoryStream trackItem = (MemoryStream)Clipboard.GetData(TrackFormat);
                     if (trackItem == null)
                     {
                         Console.WriteLine("Unable to find Premiere track items in clipboard.");
